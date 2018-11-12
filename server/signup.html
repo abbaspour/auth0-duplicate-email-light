@@ -1,0 +1,37 @@
+<form method=post id='signup-form' action="https://amin01.au.auth0.com/dbconnections/signup">
+    <label for="username">Username</label><input id="username" name="username" type="text"/>
+    <br/>
+    <label for="real_email">Email</label><input id="real_email" name="real_email" type="text"/>
+    <br/>
+    <label for="password">Password</label><input id="password" name="password" type="password"/>
+    <br/>
+    <input id="connection" name="connection" type="hidden" value="SA"/> <!-- TODO: connection name here -->
+    <input id="client_id" name="client_id" type="hidden" value="XXXXXX"/> <!-- TODO: client_id here -->
+    <br/>
+    <input type="submit" name="Sign Up" value="Sign Up" onclick="fix_email()"/>
+
+</form>
+<script>
+function fix_email() {
+    let real_email = document.getElementById("real_email").value;
+    let username = document.getElementById("username").value;
+    let email=username + '+' + real_email;
+
+    let email_element = document.createElement("input");
+    email_element.type='text';
+    email_element.value=email;
+    email_element.name='email';
+
+    let metadata_element = document.createElement("input");
+    metadata_element.type='hidden';
+    metadata_element.value={"user_metadata":{"real_email": real_email}}; //JSON.stringify();
+    metadata_element.name='user_metadata';
+
+    let signUpForm=document.getElementById('signup-form');
+    signUpForm.removeChild(document.getElementById("real_email"));
+    signUpForm.appendChild(email_element);
+    //signUpForm.appendChild(metadata_element);
+
+    signUpForm.submit();
+}
+</script>
